@@ -35,3 +35,26 @@ var humidity =  $("<h2>").text("humidity: "+ data.main.humidity)
     $("#currentweather").append(temp, humidity)
     })
 }
+
+function foreCastSearch(lat,lon) {
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=c7e31d1b9a3c72c880ed546280909ef3`)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+
+for (let i = 4; i < data.list.length; i=i+8){
+console.log(data.list[i])
+
+var temp = $("<p>").text("temp: "+data.list[i].main.temp)
+
+
+
+
+
+
+
+
+$("#forecast").append(temp)
+}
+    })
+}
