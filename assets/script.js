@@ -37,7 +37,7 @@ function showCityList(cityList) {
 }
 
 function updateCityList(currentCityName) {  //saves the city list to local storage
-    cityList.indexOf(currentCityName) === -1 ? cityList.push(currentCityName) : console.log("City already on list")
+    cityList.indexOf(currentCityName) === -1 ? cityList.push(currentCityName) :
     localStorage.setItem("cityList", JSON.stringify(cityList)); //saves cityList
     showCityList(cityList);
 }
@@ -46,15 +46,12 @@ function searchApi2(varLat, varLon, currentCityName) {
     var locQueryUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=`+varLat+`&lon=`+varLon+`&exclude=hourly&units=imperial&appid=23b89ccd37ecfa0524d0c35eae3690f8`;
     fetch(locQueryUrl)
       .then(function (response) {
-        console.log(response)
         if (!response.ok) {
           throw response.json();
         }
-        console.log(response.json)
         return response.json();
       })
       .then(function (locRes) {
-        console.log(locRes);
         weather = [];
         updateCityList(currentCityName);
         for (var i = 0; i < 7; i++) {
@@ -74,7 +71,6 @@ function searchApi2(varLat, varLon, currentCityName) {
         displayWeather(weather);
       })
       .catch(function (error) {
-        console.error(error);
       });
   }
 
@@ -83,24 +79,20 @@ function searchApi(query) {
  
     fetch(locQueryUrl)
       .then(function (response) {
-        console.log(response);
         if (!response.ok) {
           $("#search-input")[0].reset()
           alert("ERROR: City not found");
           throw response.json();
         }
-        console.log(response.json);
         return response.json();
       })
       .then(function (locRes) {
         varLat = locRes.city.coord.lat;
         varLon = locRes.city.coord.lon;
         currentCityName = query;
-        console.log(currentCityName + ` located at:`+varLat+`x`+ varLon);
         searchApi2(varLat, varLon, currentCityName);
     })
       .catch(function (error) {
-        console.error(error);
       });
 }
 
@@ -108,7 +100,6 @@ function handleSearchFormSubmit(event) {
     event.preventDefault();
     var searchInputVal = document.querySelector('#search-input').value;
     if (!searchInputVal) {
-      console.error('You need a search input value!');
       return;
     }
     searchApi(searchInputVal);
